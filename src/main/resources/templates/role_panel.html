@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+		<meta name="viewport"
+		      content="width=device-width, initial-scale=1.0">
+			  <link rel="stylesheet" th:href="@{/css/fragments.css}">
+<title>Role Panel</title>
+<style>
+		
+	/* ===== GLOBAL ===== */
+
+	*{
+	    margin:0;
+	    padding:0;
+	    box-sizing:border-box;
+	    font-family:Arial, sans-serif;
+	}
+
+	body{
+	    background:#f4f7fc;
+	    min-height:100vh;
+	}
+
+	/* ===== MAIN CONTAINER ===== */
+
+	.div_part{
+	    width:100%;
+	    max-width:1400px;
+	    margin:30px auto;
+	    padding:20px;
+	    
+	    display:flex;
+	    gap:25px;
+	    align-items:flex-start;
+	}
+
+	/* ===== LEFT SECTION ===== */
+
+	.section_left{
+	    flex:1;
+	    background:#ffffff;
+	    padding:25px;
+	    border-radius:12px;
+	    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+	}
+
+	.section_left h2{
+	    margin-bottom:20px;
+	    color:#1e3c72;
+	}
+
+	/* ===== FORM ===== */
+
+	form{
+	    display:flex;
+	    flex-direction:column;
+	    gap:15px;
+	}
+
+	label{
+	    font-size:15px;
+	    font-weight:600;
+	    color:#333;
+	}
+
+	input,
+	textarea{
+	    width:100%;
+	    padding:12px;
+	    border:1px solid #ccc;
+	    border-radius:8px;
+	    font-size:15px;
+	    transition:0.3s;
+	}
+
+	input:focus,
+	textarea:focus{
+	    border-color:#1e3c72;
+	    outline:none;
+	    box-shadow:0 0 5px rgba(30,60,114,0.3);
+	}
+
+	textarea{
+	    min-height:120px;
+	    resize:vertical;
+	}
+
+	/* ===== BUTTONS ===== */
+
+	.btn-group{
+	    display:flex;
+	    gap:12px;
+	    margin-top:10px;
+	}
+
+	.btn{
+	    padding:10px 18px;
+	    border:none;
+	    border-radius:8px;
+	    text-decoration:none;
+	    font-size:14px;
+	    font-weight:bold;
+	    cursor:pointer;
+	    transition:0.3s;
+	    display:inline-block;
+	    text-align:center;
+	}
+
+	.submit-btn{
+	    background:#1e3c72;
+	    color:white;
+	}
+
+	.submit-btn:hover{
+	    background:#16325c;
+	}
+
+	.cancel-btn{
+	    background:#dc3545;
+	    color:white;
+	}
+
+	.cancel-btn:hover{
+	    background:#b52a37;
+	}
+
+	/* ===== RIGHT SECTION ===== */
+
+	.section_right{
+	    flex:2;
+	    background:#ffffff;
+	    padding:25px;
+	    border-radius:12px;
+	    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+	    overflow-x:auto;
+	}
+
+	.section_right h2{
+	    color:#1e3c72;
+	}
+
+	.section_right h3{
+	    margin:20px 0;
+	    color:#333;
+	}
+
+	/* ===== TABLE ===== */
+
+	table{
+	    width:100%;
+	    border-collapse:collapse;
+	    margin-top:10px;
+	    min-width:700px;
+	}
+
+	table th{
+	    background:#1e3c72;
+	    color:white;
+	    padding:14px;
+	    text-align:center;
+	}
+
+	table td{
+	    padding:12px;
+	    border:1px solid #ddd;
+	    text-align:center;
+	}
+
+	table tr:nth-child(even){
+	    background:#f8f9fa;
+	}
+
+	table tr:hover{
+	    background:#eef3ff;
+	}
+
+	/* ===== ACTION BUTTONS ===== */
+
+	td .btn{
+	    margin:3px;
+	}
+
+	/* ===== TABLE RESPONSIVE ===== */
+
+	.section_right{
+	    overflow-x:auto;
+	}
+
+	/* ===== LAPTOP RESPONSIVE ===== */
+
+	@media(max-width:1200px){
+
+	    .div_part{
+	        flex-direction:column;
+	    }
+
+	    .section_left,
+	    .section_right{
+	        width:100%;
+	    }
+	}
+
+	/* ===== TABLET RESPONSIVE ===== */
+
+	@media(max-width:768px){
+
+	    .div_part{
+	        padding:15px;
+	    }
+
+	    .section_left,
+	    .section_right{
+	        padding:18px;
+	    }
+
+	    .btn-group{
+			flex-direction:row;
+			flex-wrap:wrap;
+			gap:10px;
+	    }
+
+	    .btn{
+			
+			padding:8px 14px;
+			font-size:13px;
+			min-width:120px;
+	    }
+
+	    table th,
+	    table td{
+	        padding:10px;
+	        font-size:14px;
+	    }
+	}
+
+	/* ===== MOBILE RESPONSIVE ===== */
+
+	@media(max-width:480px){
+
+	    .div_part{
+	        margin:15px auto;
+	        padding:10px;
+	        gap:15px;
+	    }
+
+	    .section_left,
+	    .section_right{
+	        padding:15px;
+	        border-radius:10px;
+	    }
+
+	    .section_right h2{
+	        font-size:22px;
+	    }
+
+	    .section_right h3{
+	        font-size:18px;
+	    }
+
+	    label{
+	        font-size:14px;
+	    }
+
+	    input,
+	    textarea{
+	        font-size:14px;
+	        padding:10px;
+	    }
+
+	    table{
+	        min-width:600px;
+	    }
+
+	    table th,
+	    table td{
+	        font-size:13px;
+	        padding:8px;
+	    }
+	}
+	
+    </style>
+</head>
+<body>
+	<!-- HEADER -->
+	<div th:replace="~{fragments :: header}"></div>
+	
+	<div class="div_part">		
+		<!-- Section 1--->
+		<div class="section_left"> 			
+			<form th:action="@{/role/saveRole}" method="post">
+			       <label>Role Name<span style="color: red;">*</span></label>
+			       <input type="text" name="roleName" placeholder="Enter role name" required>
+			       <label>Description</label>
+			       <textarea name="description" placeholder="Enter description"></textarea>
+			       <div class="btn-group">
+			           <button type="submit" class="btn submit-btn">Submit</button>
+			           <button type="reset" class="btn cancel-btn">Cancel</button>
+			       </div>
+			   </form>			
+		</div>
+		
+		<!-- Section 2--->
+		<div class="section_right">
+			<h2>Role Panel</h2><br>
+			<a th:href="@{/user/dashboard}" class="btn cancel-btn">Back</a>
+		    <h3>Saved Roles</h3>
+		    <table border="1" style="width:100%; background:white;">
+		        <tr>
+		            <th>ID</th>
+		            <th>Role Name</th>
+		            <th>Description</th>
+					<th>Modify</th>
+		        </tr>
+		        <tr th:each="role, stat : ${roleList}">       
+					<td th:text="${stat.count}"></td>
+					<td th:text="${role.roleName}"></td>
+					<td th:text="${role.description}"></td>
+					
+				
+					<td>
+					       <!-- UPDATE BUTTON -->
+						   <a th:href="@{'/role/editRole/' + ${role.id}}" class="btn submit-btn">
+						       Update
+						   </a>
+
+					       <!-- DELETE BUTTON -->
+					       <a th:href="@{'/role/deleteRole/' + ${role.id}}" 
+					          class="btn cancel-btn"
+					          onclick="return confirm('Are you sure to delete?')">
+					          Delete
+					       </a>
+					   </td>
+		        </tr>
+		    </table>
+		</div>
+	</div>
+	<!-- FOOTER -->
+	<div th:replace="~{fragments :: footer}"></div>
+	
+	
+	<!-- JAVASCRIPT -->
+	<script>
+	function toggleMenu(){
+
+	    document
+	    .getElementById("mobileMenu")
+	    .classList
+	    .toggle("show");
+	}
+	</script>
+	
+</body>
+</html>

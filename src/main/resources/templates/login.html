@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, initial-scale=1.0">
+		  <link rel="stylesheet" th:href="@{/css/fragments.css}">
+<title>Login</title>
+<style>
+
+/* ===== RESET ===== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* ===== BODY ===== */
+
+body{
+    font-family:'Segoe UI',Tahoma,sans-serif;
+    background:linear-gradient(135deg,#eef2f7,#dbeafe);
+    min-height:100vh;
+}
+
+/* ===== TITLE ===== */
+
+h1{
+    text-align:center;
+    margin-top:40px;
+    color:#1e293b;
+    font-size:40px;
+}
+
+/* ===== FORM CONTAINER ===== */
+
+.form-container{
+
+    width:90%;
+    max-width:420px;
+
+    margin:40px auto;
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:16px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* ===== LABEL ===== */
+
+label{
+
+    display:block;
+
+    margin-top:15px;
+
+    font-weight:600;
+
+    color:#374151;
+}
+
+/* ===== INPUT ===== */
+
+input{
+
+    width:100%;
+
+    padding:12px;
+
+    margin-top:6px;
+
+    border:1px solid #cbd5e1;
+
+    border-radius:10px;
+
+    font-size:15px;
+}
+
+input:focus{
+
+    outline:none;
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 3px rgba(37,99,235,0.15);
+}
+
+/* ===== BUTTON ===== */
+
+button{
+
+    width:100%;
+
+    margin-top:25px;
+
+    padding:13px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+
+    color:white;
+
+    font-size:16px;
+
+    cursor:pointer;
+}
+
+button:hover{
+
+    opacity:0.9;
+}
+
+/* ===== LINK ===== */
+
+.form-link{
+
+    margin-top:15px;
+
+    text-align:center;
+}
+
+.form-link a{
+
+    text-decoration:none;
+
+    color:#2563eb;
+}
+
+/* ===== ERROR ===== */
+
+.error-msg{
+
+    color:red;
+
+    text-align:center;
+
+    margin-top:10px;
+}
+
+/* ===== MOBILE ===== */
+
+@media(max-width:768px){
+
+    h1{
+        font-size:30px;
+    }
+
+    .form-container{
+        padding:20px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+	<!-- HEADER -->
+	<div th:replace="~{fragments :: header}"></div>
+
+<h1>Login</h1>
+
+<div class="form-container">
+<form th:action="@{/user/login}" method="post">
+
+    <label>Email<span style="color: red;">*</span></label>
+    <input type="email" name="workEmail" required />
+
+    <label>Password<span style="color: red;">*</span></label>
+    <input type="password" name="password" required />
+
+    <button type="submit">Login</button>
+
+    <p class="form-link">
+        Don't have an account?
+        <a href="/user/register">Register here</a>
+    </p>
+
+    <p class="error-msg" th:if="${error}" th:text="${error}"></p>
+
+</form>
+</div>
+
+<!-- FOOTER -->
+<div th:replace="~{fragments :: footer}"></div>
+
+
+<!-- JAVASCRIPT -->
+<script>
+function toggleMenu(){
+
+    document
+    .getElementById("mobileMenu")
+    .classList
+    .toggle("show");
+}
+</script>
+</body>
+</html>

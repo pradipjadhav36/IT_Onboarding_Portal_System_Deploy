@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+		<meta name="viewport"
+		      content="width=device-width, initial-scale=1.0">
+			  <link rel="stylesheet" th:href="@{/css/fragments.css}">
+<title>Role Form</title>
+<style>
+/* ===== GLOBAL ===== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f7fc;
+    min-height:100vh;
+}
+
+/* ===== MAIN CONTAINER ===== */
+
+.container{
+    width:100%;
+    max-width:650px;
+    
+    margin:40px auto;
+    padding:30px;
+
+    background:#ffffff;
+    border-radius:14px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,0.08);
+}
+
+/* ===== TITLE ===== */
+
+.container h2{
+    text-align:center;
+    color:#1e3c72;
+    margin-bottom:25px;
+    font-size:30px;
+}
+
+/* ===== FORM ===== */
+
+form{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+/* ===== LABEL ===== */
+
+label{
+    font-size:15px;
+    font-weight:600;
+    color:#333;
+}
+
+/* ===== INPUT & TEXTAREA ===== */
+
+input,
+textarea{
+    width:100%;
+    padding:12px 15px;
+
+    border:1px solid #ccc;
+    border-radius:8px;
+
+    font-size:15px;
+
+    transition:0.3s;
+}
+
+/* ===== FOCUS EFFECT ===== */
+
+input:focus,
+textarea:focus{
+    border-color:#1e3c72;
+    outline:none;
+
+    box-shadow:0 0 6px rgba(30,60,114,0.25);
+}
+
+/* ===== TEXTAREA ===== */
+
+textarea{
+    min-height:130px;
+    resize:vertical;
+}
+
+/* ===== BUTTON GROUP ===== */
+
+.btn-group{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-top:10px;
+    flex-wrap:wrap;
+}
+
+/* ===== BUTTON ===== */
+
+.btn{
+    padding:10px 22px;
+    border:none;
+    border-radius:8px;
+
+    font-size:15px;
+    font-weight:bold;
+
+    text-decoration:none;
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+/* ===== SAVE BUTTON ===== */
+
+.submit-btn{
+    background:#1e3c72;
+    color:white;
+}
+
+.submit-btn:hover{
+    background:#16325c;
+}
+
+/* ===== BACK BUTTON ===== */
+
+.cancel-btn{
+    background:#dc3545;
+    color:white;
+}
+
+.cancel-btn:hover{
+    background:#b52a37;
+}
+
+/* ===== TABLET RESPONSIVE ===== */
+
+@media(max-width:768px){
+
+    .container{
+        width:92%;
+        padding:22px;
+        margin:30px auto;
+    }
+
+    .container h2{
+        font-size:26px;
+    }
+
+    input,
+    textarea{
+        font-size:14px;
+    }
+
+    .btn{
+        padding:10px 18px;
+        font-size:14px;
+    }
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+
+@media(max-width:480px){
+
+    .container{
+        width:95%;
+        padding:18px;
+        margin:20px auto;
+        border-radius:10px;
+    }
+
+    .container h2{
+        font-size:22px;
+        margin-bottom:20px;
+    }
+
+    label{
+        font-size:14px;
+    }
+
+    input,
+    textarea{
+        padding:10px 12px;
+        font-size:14px;
+    }
+
+    textarea{
+        min-height:110px;
+    }
+
+    .btn-group{
+        gap:10px;
+    }
+
+    .btn{
+        padding:8px 16px;
+        font-size:13px;
+        min-width:100px;
+        text-align:center;
+    }
+}
+</style>
+</head>
+
+<body>
+	<!-- HEADER -->
+		<div th:replace="fragments :: header"></div>
+
+	<div class="container">
+   	 <h2>Add / Update Role</h2>
+		<script th:if="${error}">
+	   		 alert("[[${error}]]");
+		</script>
+
+    <form th:action="@{/role/saveRole}" th:object="${role}" method="post">
+
+        <input type="hidden" th:field="*{id}" />
+
+        <label>Role Name<span style="color: red;">*</span></label>
+        <input type="text" th:field="*{roleName}" placeholder="Enter role name" required>
+
+        <label>Description</label>
+        <textarea th:field="*{description}" placeholder="Enter description"></textarea>
+
+        <div class="btn-group">
+            <button type="submit" class="btn submit-btn">Save</button>
+            <a href="/role/role_panel" class="btn cancel-btn">Back</a>
+        </div>
+    </form>
+</div>
+
+<!-- FOOTER -->
+<div th:replace="fragments :: footer"></div>
+
+<!-- JAVASCRIPT -->
+<script>
+function toggleMenu(){
+
+    document
+    .getElementById("mobileMenu")
+    .classList
+    .toggle("show");
+}
+</script>
+</body>
+</html>

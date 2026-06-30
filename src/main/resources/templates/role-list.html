@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Role List</title>
+	
+	
+	<style>
+		
+		/* ===== HEADER ===== */
+		.header {
+		    width: 100%;
+		    position: sticky;
+		    top: 0;
+		    z-index: 1000;
+
+		    background: linear-gradient(135deg, #1e3c72, #2a5298);
+		    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+		}
+
+		/* Container */
+		.nav-container {
+		    max-width: 1100px;
+		    margin: auto;
+		    padding: 15px 25px;
+
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		}
+
+		/* Logo */
+		.logo {
+		    color: #ffffff;
+		    font-size: 22px;
+		    font-weight: 700;
+		    letter-spacing: 1px;
+		}
+
+		/* Nav Links */
+		.nav-links a {
+		    color: #ffffff;
+		    text-decoration: none;
+		    margin-left: 30px;
+		    font-size: 15px;
+		    font-weight: 500;
+		    position: relative;
+		    transition: all 0.3s ease;
+		}
+
+		/* Underline Animation */
+		.nav-links a::after {
+		    content: "";
+		    position: absolute;
+		    width: 0%;
+		    height: 2px;
+		    left: 0;
+		    bottom: -6px;
+		    background: #00c6ff;
+		    transition: 0.3s ease;
+		}
+
+		.nav-links a:hover::after {
+		    width: 100%;
+		}
+
+		.nav-links a:hover {
+		    color: #00c6ff;
+		}
+
+
+		/* ===== FOOTER ===== */
+		.footer {
+		    width: 100%;
+		    background: #111; /* darker = more premium look */
+		    color: #ccc;
+		    margin-top: 80px;
+		}
+
+		/* Container */
+		.footer-container {
+		    max-width: 1100px;
+		    margin: auto;
+		    padding: 50px 25px;
+
+		    display: flex;
+		    flex-wrap: wrap;
+		    gap: 50px; /* better spacing */
+		}
+
+		/* Sections */
+		.footer-section {
+		    flex: 1;
+		    min-width: 250px;
+		}
+
+		/* Titles */
+		.footer-section h3 {
+		    color: #ffffff;
+		    margin-bottom: 18px;
+		    font-size: 18px;
+		    position: relative;
+		}
+
+		/* Small underline under title */
+		.footer-section h3::after {
+		    content: "";
+		    width: 40px;
+		    height: 2px;
+		    background: #00c6ff;
+		    display: block;
+		    margin-top: 6px;
+		}
+
+		/* Text */
+		.footer-section p {
+		    font-size: 14px;
+		    line-height: 1.7;
+		    color: #bbb;
+		}
+
+		/* Bottom line */
+		.footer-bottom {
+		    text-align: center;
+		    padding: 18px;
+		    border-top: 1px solid #222;
+		    font-size: 13px;
+		    color: #aaa;
+		    background: #0a0a0a;
+		}
+	</style>
+</head>
+
+
+</html>

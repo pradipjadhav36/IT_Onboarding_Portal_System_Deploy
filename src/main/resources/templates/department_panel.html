@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+		<meta name="viewport"
+		      content="width=device-width, initial-scale=1.0">
+			  <link rel="stylesheet" th:href="@{/css/fragments.css}">
+<title>Department Panel</title>
+<style>
+
+	/* ===== GLOBAL ===== */
+
+	*{
+	    margin:0;
+	    padding:0;
+	    box-sizing:border-box;
+	    font-family:Arial, sans-serif;
+	}
+
+	body{
+	    background:#f4f7fc;
+	    min-height:100vh;
+	}
+
+	/* ===== MAIN CONTAINER ===== */
+
+	.div_department{
+	    width:100%;
+	    max-width:1400px;
+
+	    margin:35px auto;
+	    padding:20px;
+
+	    display:flex;
+	    gap:25px;
+	    align-items:flex-start;
+	}
+
+	/* ===== LEFT SECTION ===== */
+
+	.section1{
+	    flex:1;
+
+	    background:#ffffff;
+
+	    padding:25px;
+
+	    border-radius:12px;
+
+	    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+	}
+
+	/* ===== RIGHT SECTION ===== */
+
+	.section2{
+	    flex:2;
+
+	    background:#ffffff;
+
+	    padding:25px;
+
+	    border-radius:12px;
+
+	    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+
+	    overflow-x:auto;
+	}
+
+	/* ===== TITLES ===== */
+
+	.section2 h2{
+	    color:#1e3c72;
+	}
+
+	.section2 h3{
+	    margin:20px 0;
+	    color:#333;
+	}
+
+	/* ===== FORM ===== */
+
+	form{
+	    display:flex;
+	    flex-direction:column;
+	    gap:15px;
+	}
+
+	/* ===== LABEL ===== */
+
+	label{
+	    font-size:15px;
+	    font-weight:600;
+	    color:#333;
+	}
+
+	/* ===== INPUT ===== */
+
+	input,
+	textarea{
+	    width:100%;
+
+	    padding:12px;
+
+	    border:1px solid #ccc;
+	    border-radius:8px;
+
+	    font-size:15px;
+
+	    transition:0.3s;
+	}
+
+	/* ===== INPUT FOCUS ===== */
+
+	input:focus,
+	textarea:focus{
+	    border-color:#1e3c72;
+	    outline:none;
+
+	    box-shadow:0 0 6px rgba(30,60,114,0.25);
+	}
+
+	/* ===== TEXTAREA ===== */
+
+	textarea{
+	    min-height:120px;
+	    resize:vertical;
+	}
+
+	/* ===== BUTTON GROUP ===== */
+
+	.btn-group{
+	    display:flex;
+	    gap:12px;
+	    margin-top:10px;
+	    flex-wrap:wrap;
+	}
+
+	/* ===== BUTTON ===== */
+
+	.btn{
+	    padding:10px 18px;
+
+	    border:none;
+	    border-radius:8px;
+
+	    text-decoration:none;
+
+	    font-size:14px;
+	    font-weight:bold;
+
+	    cursor:pointer;
+
+	    transition:0.3s;
+
+	    display:inline-block;
+	    text-align:center;
+	}
+
+	/* ===== SUBMIT BUTTON ===== */
+
+	.submit-btn{
+	    background:#1e3c72;
+	    color:white;
+	}
+
+	.submit-btn:hover{
+	    background:#16325c;
+	}
+
+	/* ===== CANCEL BUTTON ===== */
+
+	.cancel-btn{
+	    background:#dc3545;
+	    color:white;
+	}
+
+	.cancel-btn:hover{
+	    background:#b52a37;
+	}
+
+	/* ===== TABLE ===== */
+
+	table{
+	    width:100%;
+	    border-collapse:collapse;
+	    margin-top:15px;
+	    min-width:700px;
+	}
+
+	/* ===== TABLE HEADER ===== */
+
+	table th{
+	    background:#1e3c72;
+	    color:white;
+
+	    padding:14px;
+
+	    text-align:center;
+	}
+
+	/* ===== TABLE DATA ===== */
+
+	table td{
+	    padding:12px;
+
+	    border:1px solid #ddd;
+
+	    text-align:center;
+	}
+
+	table tr:nth-child(even){
+	    background:#f8f9fa;
+	}
+
+	table tr:hover{
+	    background:#eef3ff;
+	}
+
+	/* ===== ACTION BUTTONS ===== */
+
+	.action-btns{
+	    display:flex;
+	    justify-content:center;
+	    gap:8px;
+	    flex-wrap:wrap;
+	}
+
+	/* ===== UPDATE BUTTON ===== */
+
+	.edit-link{
+	    background:#1e3c72;
+	    color:white;
+
+	    padding:8px 14px;
+
+	    border-radius:6px;
+
+	    text-decoration:none;
+
+	    font-size:13px;
+	    font-weight:bold;
+
+	    transition:0.3s;
+	}
+
+	.edit-link:hover{
+	    background:#16325c;
+	}
+
+	/* ===== DELETE BUTTON ===== */
+
+	.delete-link{
+	    background:#dc3545;
+	    color:white;
+
+	    padding:8px 14px;
+
+	    border-radius:6px;
+
+	    text-decoration:none;
+
+	    font-size:13px;
+	    font-weight:bold;
+
+	    transition:0.3s;
+	}
+
+	.delete-link:hover{
+	    background:#b52a37;
+	}
+
+	/* ===== LAPTOP RESPONSIVE ===== */
+
+	@media(max-width:1200px){
+
+	    .div_department{
+	        flex-direction:column;
+	    }
+
+	    .section1,
+	    .section2{
+	        width:100%;
+	    }
+	}
+
+	/* ===== TABLET RESPONSIVE ===== */
+
+	@media(max-width:768px){
+
+	    .div_department{
+	        padding:15px;
+	        gap:20px;
+	    }
+
+	    .section1,
+	    .section2{
+	        padding:20px;
+	    }
+
+	    .btn-group{
+	        flex-direction:row;
+	        flex-wrap:wrap;
+	    }
+
+	    table th,
+	    table td{
+	        font-size:14px;
+	        padding:10px;
+	    }
+	}
+
+	/* ===== MOBILE RESPONSIVE ===== */
+
+	@media(max-width:480px){
+
+	    .div_department{
+	        margin:20px auto;
+	        padding:10px;
+	        gap:15px;
+	    }
+
+	    .section1,
+	    .section2{
+	        padding:15px;
+	        border-radius:10px;
+	    }
+
+	    .section2 h2{
+	        font-size:22px;
+	    }
+
+	    .section2 h3{
+	        font-size:18px;
+	    }
+
+	    label{
+	        font-size:14px;
+	    }
+
+	    input,
+	    textarea{
+	        padding:10px;
+	        font-size:14px;
+	    }
+
+	    .btn{
+	        padding:8px 14px;
+	        font-size:13px;
+	        min-width:100px;
+	    }
+
+	    table{
+	        min-width:600px;
+	    }
+
+	    table th,
+	    table td{
+	        font-size:13px;
+	        padding:8px;
+	    }
+
+	    .edit-link,
+	    .delete-link{
+	        padding:7px 12px;
+	        font-size:12px;
+	    }
+	}			
+ </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div th:replace="~{fragments :: header}"></div>
+
+    <div class="div_department">
+        <div class="section1">			
+				<form th:action="@{/department/saveDepartment}" method="post">
+						 <label>Department Name<span style="color: red;">*</span></label>
+				         <input type="text" name="name" placeholder="Enter Department name" required>
+			    	         <label>Description</label>
+						 <textarea name="description" placeholder="Enter description"></textarea>
+						 <div class="btn-group">
+						        <button type="submit" class="btn submit-btn">Submit</button>
+						        <button type="reset" class="btn cancel-btn">Cancel</button>
+					   </div>
+				 </form>			
+			</div>
+   	   
+        <div class="section2">
+				<h2>Department Panel</h2><br>
+				<a href="/user/dashboard" class="btn cancel-btn">Back</a>
+			    <h3>Saved Department</h3>
+			    <table border="1" style="width:100%; background:white;">
+			        <tr>
+			            <th>ID</th>
+			            <th>Department Name</th>
+			            <th>Description</th>
+						<th>Modify</th>
+			        </tr>
+					<tr th:each="department, stat : ${departmentList}">       
+					    <td th:text="${stat.count}"></td>
+					    <td th:text="${department.name}"></td>
+					    <td th:text="${department.description}"></td>
+
+						<td class="action-btns">
+						    <!-- EDIT -->
+						    <a th:href="@{/department/edit/{id}(id=${department.id})}" class="edit-link">Update</a>
+
+						    <!-- DELETE -->
+						    <a th:href="@{/department/deleteDepartment/{id}(id=${department.id})}"
+						       class="delete-link"
+						       onclick="return confirm('Are you sure?')">
+						       Delete
+						    </a>
+						</td>
+					</tr>
+			    </table>	
+        </div>
+    </div>
+    <!-- FOOTER -->
+    <div th:replace="~{fragments :: footer}"></div>
+	
+	<!-- JAVASCRIPT -->
+	<script>
+	function toggleMenu(){
+
+	    document
+	    .getElementById("mobileMenu")
+	    .classList
+	    .toggle("show");
+	}
+	</script>
+</body>
+</html>

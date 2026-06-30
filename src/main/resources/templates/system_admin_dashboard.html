@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>System Admin Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" th:href="@{/css/fragments.css}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+	/* =========================
+	   GLOBAL
+	========================= */
+
+	*{
+	    margin:0;
+	    padding:0;
+	    box-sizing:border-box;
+	}
+
+	body{
+	    background:#f4f6f9;
+	    font-family:Arial, sans-serif;
+	    overflow-x:hidden;
+	}
+
+	/* =========================
+	   LAYOUT
+	========================= */
+
+	.wrapper{
+	    display:flex;
+	    min-height:100vh;
+	}
+
+	/* =========================
+	   SIDEBAR
+	========================= */
+
+	.sidebar{
+	    width:260px;
+	    min-height:100vh;
+	    background:#1e3c72;
+	    color:white;
+	    padding:20px;
+	    flex-shrink:0;
+	}
+
+	.sidebar h3{
+	    text-align:center;
+	    margin-bottom:30px;
+	    font-weight:bold;
+	}
+
+	.sidebar ul{
+	    list-style:none;
+	    padding:0;
+	}
+
+	.sidebar ul li{
+	    margin-bottom:10px;
+	}
+
+	.sidebar a{
+	    display:flex;
+	    align-items:center;
+	    gap:10px;
+	    color:white;
+	    text-decoration:none;
+	    padding:12px 15px;
+	    border-radius:8px;
+	    transition:0.3s;
+	}
+
+	.sidebar a:hover{
+	    background:rgba(255,255,255,0.2);
+	}
+
+	/* =========================
+	   MAIN CONTENT
+	========================= */
+
+	.main-content{
+	    flex:1;
+	    padding:25px;
+	    min-width:0;
+	}
+
+	/* =========================
+	   CARDS
+	========================= */
+
+	.card,
+	.dashboard-card{
+	    background:white;
+	    border:none;
+	    border-radius:15px;
+	    padding:25px;
+	    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+	    margin-bottom:20px;
+	}
+
+	/* =========================
+	   PROFILE SECTION
+	========================= */
+
+	.profile-card{
+	    text-align:center;
+	}
+
+	.image-wrapper{
+	    display:flex;
+	    justify-content:center;
+	    margin-bottom:15px;
+	}
+
+	.image-wrapper img{
+	    width:150px;
+	    height:150px;
+	    border-radius:50%;
+	    object-fit:cover;
+	    border:4px solid #1e3c72;
+	}
+
+	.btn-box{
+	    margin-top:15px;
+	    display:flex;
+	    justify-content:center;
+	    gap:10px;
+	    flex-wrap:wrap;
+	}
+
+	.profile-info{
+	    margin-top:20px;
+	}
+
+	.profile-info p{
+	    font-size:16px;
+	    margin-bottom:10px;
+	    word-break:break-word;
+	}
+
+	/* =========================
+	   TABLE RESPONSIVE
+	========================= */
+
+	.table-responsive,
+	.table-responsive-custom{
+	    width:100%;
+	    overflow-x:auto;
+	    -webkit-overflow-scrolling:touch;
+	}
+
+	.table-responsive table,
+	.table-responsive-custom table{
+	    min-width:700px;
+	    white-space:nowrap;
+	}
+
+	.table-responsive::-webkit-scrollbar,
+	.table-responsive-custom::-webkit-scrollbar{
+	    height:6px;
+	}
+
+	.table-responsive::-webkit-scrollbar-thumb,
+	.table-responsive-custom::-webkit-scrollbar-thumb{
+	    background:#888;
+	    border-radius:10px;
+	}
+
+	.table-responsive::-webkit-scrollbar-track,
+	.table-responsive-custom::-webkit-scrollbar-track{
+	    background:#eee;
+	}
+
+	/* =========================
+	   BUTTONS
+	========================= */
+
+	.btn{
+	    border-radius:8px;
+	}
+
+	/* =========================
+	   TABLET
+	========================= */
+
+	@media (max-width:992px){
+
+	    .sidebar{
+	        width:220px;
+	    }
+
+	    .main-content{
+	        padding:20px;
+	    }
+	}
+
+	/* =========================
+	   MOBILE
+	========================= */
+
+	@media (max-width:768px){
+
+	    .wrapper{
+	        flex-direction:column;
+	    }
+
+	    .sidebar{
+	        width:100%;
+	        min-height:auto;
+	        padding:15px;
+	    }
+
+	    .sidebar h3{
+	        margin-bottom:15px;
+	    }
+
+	    .sidebar ul{
+	        display:flex;
+	        flex-wrap:wrap;
+	        gap:10px;
+	        justify-content:center;
+	    }
+
+	    .sidebar ul li{
+	        margin-bottom:0;
+	    }
+
+	    .sidebar a{
+	        padding:10px 15px;
+	        font-size:14px;
+	    }
+
+	    .main-content{
+	        padding:15px;
+	    }
+
+	    .dashboard-card,
+	    .card{
+	        padding:15px;
+	    }
+
+	    .image-wrapper img{
+	        width:120px;
+	        height:120px;
+	    }
+
+	    .profile-info p{
+	        font-size:14px;
+	    }
+
+	    .table-responsive table,
+	    .table-responsive-custom table{
+	        min-width:700px;
+	    }
+	}
+
+	/* =========================
+	   SMALL MOBILE
+	========================= */
+
+	@media (max-width:480px){
+
+	    .sidebar ul{
+	        flex-direction:column;
+	    }
+
+	    .sidebar a{
+	        width:100%;
+	        justify-content:flex-start;
+	    }
+
+	    .btn-box{
+	        flex-direction:column;
+	    }
+
+	    .btn-box .btn{
+	        width:100%;
+	    }
+
+	    .table-responsive table,
+	    .table-responsive-custom table{
+	        min-width:650px;
+	    }
+	}
+
+
+
+</style>
+
+</head>
+
+<body>
+
+<div th:replace="~{fragments :: header}"></div>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- SIDEBAR -->
+        <div class="col-md-2 sidebar">
+
+            <h3>System Admin</h3>
+
+            <ul>
+
+                <li>
+                    <a href="#" onclick="showDashboard()">
+                        <i class="bi bi-house-fill"></i>
+                        Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" onclick="showProfile()">
+                        <i class="bi bi-person-circle"></i>
+                        Profile
+                    </a>
+                </li>
+
+                <li>
+					<a href="#" onclick="showApproved()">
+					    <i class="bi bi-check-circle-fill"></i>
+					    Approved Employee
+					</a>
+                </li>
+
+            </ul>
+
+            <a th:href="@{/logout}" class="btn btn-danger mt-4 w-100">
+                Logout
+            </a>
+
+        </div>
+
+        <!-- RIGHT CONTENT -->
+        <div class="col-md-10 main-content">
+
+			
+			<!-- SUCCESS MESSAGE -->
+			    <div th:if="${successMessage}"
+			         class="alert alert-success alert-dismissible fade show"
+			         role="alert">
+
+			        <span th:text="${successMessage}"></span>
+
+			        <button type="button"
+			                class="btn-close"
+			                data-bs-dismiss="alert">
+			        </button>
+			    </div>
+
+				
+            <!-- DASHBOARD SECTION -->
+            <div id="dashboard-section">
+
+                <h2>
+                    Welcome System Admin,
+                    <span th:text="${loggedInUser != null ? loggedInUser.firstName : 'Admin'}"></span>
+                </h2>
+
+                <hr>
+
+                <div class="row mt-4">
+
+                    <div class="col-md-4">
+                        <div class="card p-3">
+                            <h4>Total Employees</h4>
+                            <h2 th:text="${totalEmployees}">0</h2>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card p-3">
+                            <h4>Total HR</h4>
+                            <h2 th:text="${totalHR}">0</h2>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card p-3">
+                            <h4>Total Managers</h4>
+                            <h2 th:text="${totalManagers}">0</h2>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PROFILE SECTION -->
+            <div id="profile-section" style="display:none;">
+
+                <div class="dashboard-card">
+
+                    <h2>System Admin Profile</h2>
+
+                    <div class="profile-card">
+
+                        <div class="image-wrapper">
+                            <img id="profilePreview"
+                                 src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
+                        </div>
+
+                        <input type="file"
+                               id="profileImage"
+                               hidden
+                               accept="image/*">
+
+                        <div class="btn-box">
+
+                            <button class="btn btn-success"
+                                    onclick="document.getElementById('profileImage').click()">
+                                Upload Image
+                            </button>
+
+                            <button class="btn btn-danger"
+                                    onclick="removeProfile()">
+                                Delete Image
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="profile-info">
+
+                        <p>
+                            <b>Full Name :</b>
+                            <span th:text="${loggedInUser != null ? loggedInUser.firstName + ' ' + loggedInUser.lastName : '-'}"></span>
+                        </p>
+
+                        <p>
+                            <b>Email :</b>
+                            <span th:text="${loggedInUser != null ? loggedInUser.workEmail : '-'}"></span>
+                        </p>
+
+                        <p>
+                            <b>Role :</b>
+                            <span th:text="${loggedInUser != null ? loggedInUser.role.roleName : '-'}"></span>
+                        </p>
+
+                        <p>
+                            <b>Department :</b>
+                            <span th:text="${loggedInUser != null && loggedInUser.department != null ? loggedInUser.department.name : '-'}"></span>
+                        </p>
+
+
+                        <p>
+                            <b>Phone Number :</b>
+                            <span th:text="${loggedInUser != null ? loggedInUser.phoneNo : '-'}"></span>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+			
+			
+			
+			
+			<!-- APPROVED EMPLOYEE SECTION -->
+			<div id="approved-section" style="display:none;">
+
+			    <div class="dashboard-card">
+
+			        <h2>Approved Employees</h2>
+			<div class="table-responsive-custom">
+			        <table class="table table-bordered table-striped mt-3">
+
+			            <thead class="table-dark">
+			                <tr>
+			                    <th>Employee ID</th>
+			                    <th>Name</th>
+			                    <th>Email</th>
+			                    <th>Status</th>
+								<th>Assets Allowcation</th>
+			                </tr>
+			            </thead>
+
+			            <tbody>
+
+			                <tr th:each="emp : ${approvedEmployees}">
+
+			                    <td th:text="${emp.id}"></td>
+
+			                    <td th:text="${emp.firstName + ' ' + emp.lastName}"></td>
+
+			                    <td th:text="${emp.workEmail}"></td>
+
+			                    <td>
+			                        <span class="badge bg-success"
+			                              th:text="${emp.onboardingStatus}">
+			                        </span>
+			                    </td>
+								
+								
+								<td>
+								          
+									<button type="button"
+									        class="btn btn-primary asset-btn"
+									        data-bs-toggle="modal"
+									        data-bs-target="#assetModal"
+									        th:data-username="${emp.firstName + ' ' + emp.lastName}">
+									    Assets
+									</button>
+
+								              
+								         
+								      </td>
+
+			                </tr>
+
+			            </tbody>
+
+			        </table>
+					
+					</div>
+			    </div>
+
+			</div>
+			
+			
+			
+			
+
+			<div class="modal fade" id="assetModal" tabindex="-1">
+			    <div class="modal-dialog">
+			        <div class="modal-content">
+
+			            <div class="modal-header">
+			                <h5 class="modal-title">Asset Allocation</h5>
+			                <button type="button"
+			                        class="btn-close"
+			                        data-bs-dismiss="modal"></button>
+			            </div>
+
+			            <div class="modal-body">
+
+							<form th:action="@{/user/save}" method="post">
+
+							    <input type="text"
+							           name="employeeName"
+							           id="userName"
+							           class="form-control mb-2"
+							           readonly>
+
+							    <div class="form-check">
+							        <input type="checkbox"
+							               class="form-check-input"
+							               name="laptop"
+							               value="true">
+							        <label class="form-check-label">
+							            Laptop
+							        </label>
+							    </div>
+
+							    <div class="form-check">
+							        <input type="checkbox"
+							               class="form-check-input"
+							               name="mobile"
+							               value="true">
+							        <label class="form-check-label">
+							            Mobile
+							        </label>
+							    </div>
+
+							    <div class="form-check">
+							        <input type="checkbox"
+							               class="form-check-input"
+							               name="mouse"
+							               value="true">
+							        <label class="form-check-label">
+							            Mouse
+							        </label>
+							    </div>
+
+							    <button type="submit"
+							            class="btn btn-success mt-3">
+							        Save
+							    </button>
+
+							</form>
+
+			            </div>
+
+			        </div>
+			    </div>
+			</div>
+</div>
+
+<div th:replace="~{fragments :: footer}"></div>
+
+<script>
+
+function showDashboard(){
+
+    document.getElementById("dashboard-section").style.display="block";
+    document.getElementById("profile-section").style.display="none";
+    document.getElementById("approved-section").style.display="none";
+}
+
+function showProfile(){
+
+    document.getElementById("dashboard-section").style.display="none";
+    document.getElementById("profile-section").style.display="block";
+    document.getElementById("approved-section").style.display="none";
+}
+
+function showApproved(){
+
+    document.getElementById("dashboard-section").style.display="none";
+    document.getElementById("profile-section").style.display="none";
+    document.getElementById("approved-section").style.display="block";
+}
+
+document.getElementById("profileImage").addEventListener("change", function(event){
+
+    const file = event.target.files[0];
+
+    if(file){
+        document.getElementById("profilePreview").src =
+        URL.createObjectURL(file);
+    }
+});
+
+function removeProfile(){
+
+    document.getElementById("profilePreview").src =
+    "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
+    document.getElementById("profileImage").value="";
+}
+function toggleMenu(){
+
+    document
+    .getElementById("mobileMenu")
+    .classList
+    .toggle("show");
+}
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const assetButtons = document.querySelectorAll(".asset-btn");
+
+    assetButtons.forEach(button => {
+
+        button.addEventListener("click", function () {
+
+            let userName = this.getAttribute("data-username");
+
+            document.getElementById("userName").value = userName;
+        });
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>

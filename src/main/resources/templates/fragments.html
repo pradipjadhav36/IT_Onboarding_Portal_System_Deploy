@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header class="header"
+        th:fragment="header">
+
+    <div class="nav-container">
+
+        <!-- MENU ICON -->
+
+        <div class="menu-toggle"
+             onclick="toggleMenu()">
+
+            ☰
+
+        </div>
+
+        <!-- LOGO -->
+
+        <div class="logo">
+
+            IT Onboarding
+
+        </div>
+
+        <!-- MENU -->
+
+        <nav class="nav-links"
+             id="mobileMenu">
+
+            <a href="/user/login">
+                Login
+            </a>
+
+            <a href="/user/register">
+                Register
+            </a>
+
+            <a href="#">
+                About
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer"
+        th:fragment="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-section">
+
+            <h3>IT Onboarding</h3>
+
+            <p>
+                Helping employees onboard smoothly
+                with modern tools.
+            </p>
+
+        </div>
+
+        <div class="footer-section">
+
+            <h3>About</h3>
+
+            <p>
+                IT Onboarding Portal helps employees
+                join smoothly with digital process.
+            </p>
+
+        </div>
+
+        <div class="footer-section">
+
+            <h3>Contact</h3>
+
+            <p>Email: support@company.com</p>
+
+            <p>Phone: +91 9876543210</p>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+        © 2026 IT Onboarding Portal
+
+    </div>
+
+</footer>
+
+</body>
+
+</html>

@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/fragments.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+	<title>HR Dashboard</title>
+	
+	<style>
+
+	/* =========================================
+	   GLOBAL CSS
+	========================================= */
+
+	*{
+	    margin:0;
+	    padding:0;
+	    box-sizing:border-box;
+	    font-family:Arial, sans-serif;
+	}
+
+	body{
+	    background:#f4f7fc;
+	    color:#333;
+	    overflow-x:hidden;
+	}
+
+	/* =========================================
+	   MAIN LAYOUT
+	========================================= */
+
+	.container-fluid{
+	    padding:0;
+	}
+
+	.row{
+	    margin:0;
+	}
+
+	/* =========================================
+	   SIDEBAR
+	========================================= */
+
+	.sidebar{
+	    min-height:100vh;
+	    background:#1e3c72;
+	    padding:25px 15px;
+	    position:sticky;
+	    top:0;
+	}
+
+	.dashboard-title{
+	    color:white;
+	    font-size:26px;
+	    font-weight:bold;
+	    margin-bottom:35px;
+	    text-align:center;
+	}
+
+	.sidebar a{
+	    display:block;
+	    color:white;
+	    text-decoration:none;
+	    padding:14px 18px;
+	    border-radius:10px;
+	    margin-bottom:12px;
+	    transition:0.3s;
+	    font-size:15px;
+	    font-weight:600;
+	}
+
+	.sidebar a i{
+	    margin-right:10px;
+	}
+
+	.sidebar a:hover{
+	    background:rgba(255,255,255,0.15);
+	    transform:translateX(5px);
+	}
+
+	/* =========================================
+	   MAIN CONTENT
+	========================================= */
+
+	.main-content{
+	    padding:25px;
+	}
+
+	/* =========================================
+	   HEADER CARD
+	========================================= */
+
+	.header-card{
+	    background:white;
+	    padding:20px 25px;
+	    border-radius:16px;
+	    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+	    margin-bottom:25px;
+	    flex-wrap:wrap;
+	    gap:15px;
+	}
+
+	.welcome-text{
+	    font-size:22px;
+	    font-weight:bold;
+	    color:#1e3c72;
+	}
+
+	/* =========================================
+	   CONTENT CARD
+	========================================= */
+
+	.content-card{
+	    background:white;
+	    padding:25px;
+	    border-radius:16px;
+	    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+	    margin-bottom:25px;
+	}
+
+	.content-card h2,
+	.content-card h3{
+	    color:#1e3c72;
+	    margin-bottom:18px;
+	}
+
+	/* =========================================
+	   PROFILE SECTION
+	========================================= */
+
+	.profile-card{
+	    text-align:center;
+	}
+
+	.image-wrapper{
+	    width:140px;
+	    height:140px;
+	    margin:auto;
+	    border-radius:50%;
+	    overflow:hidden;
+	    border:4px solid #1e3c72;
+	}
+
+	.image-wrapper img{
+	    width:100%;
+	    height:100%;
+	    object-fit:cover;
+	}
+
+	.btn-box{
+	    margin-top:20px;
+	    display:flex;
+	    justify-content:center;
+	    gap:12px;
+	    flex-wrap:wrap;
+	}
+
+	.add-btn,
+	.delete-btn{
+	    border:none;
+	    padding:10px 18px;
+	    border-radius:8px;
+	    color:white;
+	    font-weight:bold;
+	    cursor:pointer;
+	    transition:0.3s;
+	}
+
+	.add-btn{
+	    background:#198754;
+	}
+
+	.add-btn:hover{
+	    background:#146c43;
+	}
+
+	.delete-btn{
+	    background:#dc3545;
+	}
+
+	.delete-btn:hover{
+	    background:#b52a37;
+	}
+
+	/* =========================================
+	   TABLE
+	========================================= */
+
+	.table{
+	    width:100%;
+	    border-collapse:collapse;
+	    margin-top:20px;
+	    min-width:950px;
+	}
+
+	.table thead{
+	    background:#1e3c72;
+	    color:white;
+	}
+
+	.table th{
+	    padding:14px;
+	    text-align:center;
+	    font-size:15px;
+	}
+
+	.table td{
+	    padding:14px;
+	    border:1px solid #ddd;
+	    text-align:center;
+	    font-size:14px;
+	}
+
+	.table tbody tr:nth-child(even){
+	    background:#f8f9fa;
+	}
+
+	.table tbody tr:hover{
+	    background:#eef3ff;
+	}
+
+	/* =========================================
+	   TABLE RESPONSIVE
+	========================================= */
+
+	.content-card{
+	    overflow-x:auto;
+	}
+
+	/* =========================================
+	   START BUTTON
+	========================================= */
+
+	.start-btn{
+	    border:none;
+	    padding:10px 16px;
+	    border-radius:8px;
+	    font-size:14px;
+	    font-weight:bold;
+	    transition:0.3s;
+	}
+
+	.start-btn:hover{
+	    transform:scale(1.03);
+	}
+
+	/* =========================================
+	   FORM SECTION
+	========================================= */
+
+	#onboarding-section{
+	    background:white;
+	}
+
+	.form-label{
+	    font-weight:600;
+	    margin-bottom:8px;
+	    color:#1e3c72;
+	}
+
+	.form-control{
+	    border-radius:10px;
+	    padding:12px;
+	    border:1px solid #ccc;
+	    transition:0.3s;
+	}
+
+	.form-control:focus{
+	    border-color:#1e3c72;
+	    box-shadow:0 0 6px rgba(30,60,114,0.25);
+	}
+
+	/* =========================================
+	   FORM BUTTONS
+	========================================= */
+
+	.btn-success,
+	.btn-secondary{
+	    padding:10px 18px;
+	    border-radius:8px;
+	    font-weight:bold;
+	}
+
+	/* =========================================
+	   ALERTS
+	========================================= */
+
+	.alert{
+	    border-radius:10px;
+	    padding:14px;
+	    margin-bottom:20px;
+	}
+
+	/* =========================================
+	   LAPTOP RESPONSIVE
+	========================================= */
+
+	@media(max-width:1200px){
+
+	    .sidebar{
+	        padding:20px 12px;
+	    }
+
+	    .dashboard-title{
+	        font-size:22px;
+	    }
+
+	    .table th,
+	    .table td{
+	        padding:12px 10px;
+	    }
+	}
+
+	/* =========================================
+	   TABLET RESPONSIVE
+	========================================= */
+
+	@media(max-width:992px){
+
+	    .sidebar{
+	        min-height:auto;
+	        position:relative;
+	    }
+
+	    .main-content{
+	        padding:18px;
+	    }
+
+	    .header-card{
+	        padding:18px;
+	    }
+
+	    .welcome-text{
+	        font-size:20px;
+	    }
+
+	    .content-card{
+	        padding:20px;
+	    }
+	}
+
+	/* =========================================
+	   MOBILE RESPONSIVE
+	========================================= */
+
+	@media(max-width:768px){
+
+	    .sidebar{
+	        width:100%;
+	        text-align:center;
+	    }
+
+	    .sidebar a{
+	        font-size:14px;
+	        padding:12px;
+	    }
+
+	    .main-content{
+	        padding:15px;
+	    }
+
+	    .header-card{
+	        flex-direction:column;
+	        align-items:flex-start !important;
+	    }
+
+	    .welcome-text{
+	        font-size:18px;
+	    }
+
+	    .content-card{
+	        padding:18px;
+	    }
+
+	    .content-card h2,
+	    .content-card h3{
+	        font-size:22px;
+	    }
+
+	    .table{
+	        min-width:900px;
+	    }
+
+	    .table th,
+	    .table td{
+	        font-size:13px;
+	        padding:10px;
+	    }
+
+	    .btn-box{
+	        flex-direction:column;
+	        align-items:center;
+	    }
+
+	    .add-btn,
+	    .delete-btn{
+	        width:100%;
+	        max-width:220px;
+	    }
+
+	    .d-flex.gap-2{
+	        flex-direction:column;
+	    }
+
+	    .btn-success,
+	    .btn-secondary{
+	        width:100%;
+	    }
+	}
+
+	/* =========================================
+	   SMALL MOBILE
+	========================================= */
+
+	@media(max-width:480px){
+
+	    .dashboard-title{
+	        font-size:20px;
+	    }
+
+	    .sidebar a{
+	        font-size:13px;
+	        padding:10px;
+	    }
+
+	    .main-content{
+	        padding:10px;
+	    }
+
+	    .header-card{
+	        padding:15px;
+	    }
+
+	    .welcome-text{
+	        font-size:16px;
+	    }
+
+	    .content-card{
+	        padding:15px;
+	        border-radius:12px;
+	    }
+
+	    .content-card h2,
+	    .content-card h3{
+	        font-size:20px;
+	    }
+
+	    .image-wrapper{
+	        width:110px;
+	        height:110px;
+	    }
+
+	    .form-control{
+	        padding:10px;
+	        font-size:14px;
+	    }
+
+	    .table th,
+	    .table td{
+	        font-size:12px;
+	        padding:8px;
+	    }
+
+	    .start-btn{
+	        padding:8px 12px;
+	        font-size:12px;
+	    }
+	}
+
+	</style>
+</head>
+
+<body>
+	<!-- HEADER -->
+		<div th:replace="~{fragments :: header}"></div>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- ================= SIDEBAR ================= -->
+        <div class="col-md-3 col-lg-2 sidebar">
+            <div class="dashboard-title">HR Dashboard</div>
+
+            <a href="#" onclick="showSection('dashboard')"><i class="bi bi-house-door-fill"></i> Dashboard</a>
+            <a href="#" onclick="showSection('profile')"><i class="bi bi-person-circle"></i> Profile</a>
+            <a href="#" onclick="showSection('employee')"><i class="bi bi-people-fill"></i> Employees</a>
+        </div>
+
+        <!-- ================= MAIN CONTENT ================= -->
+        <div class="col-md-9 col-lg-10 main-content">
+
+            <!-- HEADER -->
+            <div class="header-card d-flex justify-content-between align-items-center">
+                <div class="welcome-text">
+                    Welcome HR,
+                    <span th:text="${loggedInUser.firstName}"></span>
+                    <span th:text="${loggedInUser.lastName}"></span>
+                </div>
+
+                <a th:href="@{/user/login}" class="btn btn-outline-danger">Logout</a>
+            </div>
+
+            <!-- DASHBOARD -->
+            <div class="content-card" id="dashboard-section">
+                <h3>Dashboard Overview</h3>
+                <p>Manage employees, reports and HR operations.</p>
+            </div>
+
+            <!-- PROFILE -->
+            <div class="content-card" id="profile-section" style="display:none;">
+
+                <div class="profile-card">
+                    <div class="image-wrapper">
+                        <img id="profilePreview"
+                             src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
+                    </div>
+
+                    <input type="file" id="profileImage" hidden accept="image/*">
+
+                    <div class="btn-box">
+                        <button class="add-btn" onclick="document.getElementById('profileImage').click()">
+                            Upload
+                        </button>
+
+                        <button class="delete-btn" onclick="removeProfile()">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <p><b>Name:</b>
+                        <span th:text="${loggedInUser.firstName}"></span>
+                        <span th:text="${loggedInUser.lastName}"></span>
+                    </p>
+
+                    <p><b>Email:</b> <span th:text="${loggedInUser.workEmail}"></span></p>
+                    <p><b>Role:</b> <span th:text="${loggedInUser.role.roleName}"></span></p>
+                </div>
+            </div>
+
+            <!-- EMPLOYEE -->
+            <div class="content-card" id="employee-section" style="display:none;">
+
+                <h2>Employee Records</h2>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Role</th>
+                        <th>Department</th>
+					    <th>Status</th>
+						<th>Action</th>
+                      
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="emp : ${employees}">
+                        <td th:text="${emp.id}"></td>
+                        <td>
+                            <span th:text="${emp.firstName}"></span>
+                            <span th:text="${emp.lastName}"></span>
+                        </td>
+                        <td th:text="${emp.workEmail}"></td>
+                        <td th:text="${emp.phoneNo}"></td>
+                        <td th:text="${emp.role.roleName}"></td>
+                        <td th:text="${emp.department.name}"></td>
+						<td>
+						    <span th:text="${emp.onboardingStatus}"></span>
+						</td>
+
+						<td>
+
+						    <button type="button"
+						            class="start-btn btn btn-primary"
+						            th:if="${emp.onboardingStatus == null 
+						                  || emp.onboardingStatus == 'RETURN_TO_HR'}"
+
+						            th:attr="
+						            data-id=${emp.id},
+						            data-name=${emp.firstName + ' ' + emp.lastName},
+						            data-email=${emp.workEmail},
+						            data-phone=${emp.phoneNo},
+						            data-role=${emp.role.id},
+						            data-department=${emp.department != null ? emp.department.id : ''},
+						            data-designation=${emp.designation},
+						            data-joiningdate=${emp.joiningDate},
+						            data-status=${emp.onboardingStatus}"
+
+						            onclick="openOnboarding(this)">
+
+						        <span th:text="${emp.onboardingStatus == 'RETURN_TO_HR' ? 'Re-Onboarding' : 'Start Onboarding'}"></span>
+
+						    </button>
+							
+							<span th:if="${emp.onboardingStatus == 'COMPLETED'}"
+							          class="badge bg-success">
+							        Onboarding Completed
+							    </span>
+
+							    <span th:if="${emp.onboardingStatus == 'STARTED'}"
+							          class="badge bg-warning">
+							        Onboarding Started
+							    </span>
+
+						</td>
+                    </tr>
+                    </tbody>
+                </table>
+				
+
+				
+            </div>
+
+
+			
+			
+			<!-- ================= ONBOARDING FORM ================= -->
+			<div id="onboarding-section" class="content-card" style="display:none; max-width:700px; margin:auto;">
+
+				
+				
+				<div th:if="${success}"
+				     class="alert alert-success alert-dismissible fade show"
+				     role="alert">
+
+				    <span th:text="${success}"></span>
+
+				    <button type="button"
+				            class="btn-close"
+				            data-bs-dismiss="alert">
+				    </button>
+				</div>
+
+				<div th:if="${error}"
+				     class="alert alert-danger alert-dismissible fade show"
+				     role="alert">
+
+				    <span th:text="${error}"></span>
+
+				    <button type="button"
+				            class="btn-close"
+				            data-bs-dismiss="alert">
+				    </button>
+				</div>
+				
+				
+				
+				
+				
+			    <h3 class="mb-4">Start Onboarding</h3>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<div th:if="${success}"
+				     class="alert alert-success">
+
+				    <span th:text="${success}"></span>
+				</div>
+
+				<div th:if="${error}"
+				     class="alert alert-danger">
+
+				    <span th:text="${error}"></span>
+				</div>
+				
+
+			    <form th:action="@{/user/hr/save-onboarding}" method="post">
+
+					<div class="mb-3">
+					    <label class="form-label">Employee ID</label>
+
+					    <input type="text"
+					           id="employeeId"
+					           name="employeeId"
+					           class="form-control"
+					           required>
+					</div>
+					
+					
+					<!-- Full Name -->
+					<div class="mb-3">
+					    <label class="form-label">Full Name</label>
+
+					    <input type="text"
+					           id="fullName"
+					           name="fullName"
+					           class="form-control"
+					           required>
+					</div>
+					
+					
+			        <!-- Email -->
+			        <div class="mb-3">
+			            <label class="form-label">Email</label>
+			            <input type="email"  id="email"  name="workEmail" class="form-control" required>
+			        </div>
+
+			        <!-- Phone -->
+			        <div class="mb-3">
+			            <label class="form-label">Phone</label>
+						<input type="text" id="phone" name="phoneNo" class="form-control"
+						       required
+						       pattern="[0-9]{10}"
+						       title="Enter 10 digit phone number">
+			        </div>
+
+			        <!-- Password -->
+
+
+					<div class="mb-3">
+					    <label class="form-label">Select Role</label>
+
+					    <select class="form-control"  id="role" name="roleId" required>
+					        <option value="">Select Role</option>
+
+					        <option th:each="r : ${roles}"
+					                th:value="${r.id}"
+					                th:text="${r.roleName}">
+					        </option>
+
+					    </select>
+					</div>
+
+					<div class="mb-3">
+					    <label class="form-label">Select Department</label>
+
+					    <select class="form-control"  				
+								id="department"
+						        name="departmentId" required>
+					        <option value="">Select Department</option>
+
+					        <option th:each="d : ${departments}"
+					                th:value="${d.id}"
+					                th:text="${d.name}">
+					        </option>
+
+					    </select>
+					</div>
+
+			        <!-- Designation -->
+			        <div class="mb-3">
+			            <label class="form-label">Designation</label>
+			            <input type="text"  id="designation" name="designation" class="form-control" required>
+			        </div>
+
+			        <!-- Location -->
+			        <div class="mb-3">
+			            <label class="form-label">Location</label>
+			            <input type="text" id="location"  name="address" class="form-control" required>
+			        </div>
+
+			        <!-- Joining Date -->
+			        <div class="mb-3">
+			            <label class="form-label">Joining Date</label>
+			            <input type="date" id="joiningDate" name="joiningDate"  class="form-control" required>
+			        </div>
+
+			        <div class="d-flex gap-2">
+			            <button type="submit" class="btn btn-success">Save</button>
+			            <button type="button" class="btn btn-secondary" onclick="closeOnboarding()">Cancel</button>
+			        </div>
+
+			    </form>
+			</div>
+			
+			
+
+        </div>
+    </div>
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+
+function showSection(section) {
+    document.querySelectorAll(".content-card").forEach(el => el.style.display = "none");
+    document.getElementById(section + "-section").style.display = "block";
+}
+
+// PROFILE IMAGE
+const profileImage = document.getElementById("profileImage");
+const profilePreview = document.getElementById("profilePreview");
+
+profileImage.addEventListener("change", function () {
+    const file = this.files[0];
+    const reader = new FileReader();
+    reader.onload = e => profilePreview.src = e.target.result;
+    reader.readAsDataURL(file);
+});
+
+function removeProfile() {
+    profilePreview.src = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+    profileImage.value = "";
+}
+
+
+function openOnboarding(button) {
+
+    // onboarding already started
+    if (button.dataset.status === "STARTED") {
+
+        alert("Onboarding already started for this user");
+
+        return;
+    }
+
+    // show form
+    document.getElementById("onboarding-section").style.display = "block";
+
+    document.getElementById("employeeId").value =
+        button.dataset.id || "";
+
+    document.getElementById("fullName").value =
+        button.dataset.name || "";
+
+    document.getElementById("email").value =
+        button.dataset.email || "";
+
+    document.getElementById("phone").value =
+        button.dataset.phone || "";
+
+    document.getElementById("role").value =
+        button.dataset.role || "";
+
+    document.getElementById("department").value =
+        button.dataset.department || "";
+
+    document.getElementById("designation").value =
+        button.dataset.designation || "";
+
+    document.getElementById("joiningDate").value =
+        button.dataset.joiningdate || "";
+}
+
+function closeOnboarding() {
+    // hide onboarding form
+    document.getElementById("onboarding-section").style.display = "none";
+
+    // use your existing navigation system
+    showSection("dashboard");
+}
+
+
+function toggleMenu(){
+
+    document
+    .getElementById("mobileMenu")
+    .classList
+    .toggle("show");
+}
+
+</script>
+
+
+<!-- FOOTER -->
+<div th:replace="~{fragments :: footer}"></div>
+</body>
+</html>
